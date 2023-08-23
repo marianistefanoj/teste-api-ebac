@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
+import contrato from '../contracts/produtos.contracts'
 
+//SJM - 15/08/23 - Criação do script para teste com metodos GET POST PUT DELETE
 describe('Testes da funcionalidade produtos', () => {
 
     let token
@@ -10,6 +12,13 @@ describe('Testes da funcionalidade produtos', () => {
         //e depois armazena o retorno do login que é o token em uma variavel para ser usado dentro do teste de cadastro de produto
         cy.token('fulano@qa.com', 'teste').then(tkn => { 
             token = tkn
+        })
+    });
+
+    //SJM - 17/08/23 - Utilizando JOI para teste de contrato
+    it('Deve validar contrato de produtos', () => {
+        cy.request('produtos').then(response => {
+             return contrato.validateAsync(response.body)
         })
     });
 

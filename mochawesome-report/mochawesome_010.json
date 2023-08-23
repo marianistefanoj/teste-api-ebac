@@ -1,0 +1,200 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 6,
+    "passes": 6,
+    "pending": 0,
+    "failures": 0,
+    "start": "2023-08-23T01:39:09.242Z",
+    "end": "2023-08-23T01:39:09.816Z",
+    "duration": 574,
+    "testsRegistered": 6,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "508f729d-5260-4557-b3c7-ca534cd677b8",
+      "title": "",
+      "fullFile": "cypress\\e2e\\exercicio-api.cy.js",
+      "file": "cypress\\e2e\\exercicio-api.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "33e40895-b927-4235-b935-be4a3da240fe",
+          "title": "Testes da Funcionalidade Usuários",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Deve validar contrato de usuários",
+              "fullTitle": "Testes da Funcionalidade Usuários Deve validar contrato de usuários",
+              "timedOut": null,
+              "duration": 141,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "//faz um get em usuarios, atribui para response e valida se response.body é igual ao JOI de usuario\ncy.request('usuarios').then(response => {\n  return _usuario.default.validateAsync(response.body);\n});",
+              "err": {},
+              "uuid": "eb06cb22-0554-471e-8e73-e12103d2bf27",
+              "parentUUID": "33e40895-b927-4235-b935-be4a3da240fe",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "GET - Deve listar usuários cadastrados",
+              "fullTitle": "Testes da Funcionalidade Usuários GET - Deve listar usuários cadastrados",
+              "timedOut": null,
+              "duration": 90,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "//sempre utilizado para fazer as requisições \ncy.request({\n  method: 'GET',\n  //metodo html\n  url: '/usuarios' //url base + endpoint\n}).then(response => {\n  //response = retorno da request\n  expect(response.status).to.equal(200); //espera que o status code do request seja 200\n  expect(response.body.usuarios[0].nome).not.equal('');\n});",
+              "err": {},
+              "uuid": "170bce0c-ccdc-4d57-b2d3-ed9fa0785648",
+              "parentUUID": "33e40895-b927-4235-b935-be4a3da240fe",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "POST - Deve cadastrar um usuário com sucesso",
+              "fullTitle": "Testes da Funcionalidade Usuários POST - Deve cadastrar um usuário com sucesso",
+              "timedOut": null,
+              "duration": 92,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  method: 'POST',\n  url: '/usuarios',\n  headers: {\n    authorization: token\n  },\n  body: {\n    \"administrador\": \"true\",\n    \"nome\": usuario,\n    \"email\": email + \"@qa.com.br\",\n    \"password\": \"teste\"\n  }\n}).then(response => {\n  expect(response.status).to.be.equal(201), expect(response.body.message).to.equal('Cadastro realizado com sucesso');\n  id = response.body._id;\n  cy.log(response.body._id);\n});",
+              "err": {},
+              "uuid": "156ab88f-b1f4-4645-a78f-f14562b3dd85",
+              "parentUUID": "33e40895-b927-4235-b935-be4a3da240fe",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "POST - Deve validar um usuário com email inválido",
+              "fullTitle": "Testes da Funcionalidade Usuários POST - Deve validar um usuário com email inválido",
+              "timedOut": null,
+              "duration": 67,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  method: 'POST',\n  url: '/usuarios',\n  headers: {\n    authorization: token\n  },\n  body: {\n    \"administrador\": \"true\",\n    \"nome\": usuario,\n    \"email\": usuario + \"@qa.com.br\",\n    \"password\": \"teste\"\n  },\n  failOnStatusCode: false\n}).then(response => {\n  expect(response.status).to.be.equal(400), expect(response.body.email).to.equal('email deve ser um email válido');\n});",
+              "err": {},
+              "uuid": "7603cd13-ac4f-427a-bab4-626d763559ac",
+              "parentUUID": "33e40895-b927-4235-b935-be4a3da240fe",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "PUT - Deve editar um usuário previamente cadastrado",
+              "fullTitle": "Testes da Funcionalidade Usuários PUT - Deve editar um usuário previamente cadastrado",
+              "timedOut": null,
+              "duration": 81,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "let randomNew = Math.floor(Math.random() * 1000000);\nlet usuarioNew = `Usuario Novo ${random}`;\nlet emailNew = `UsuarioNovo${random}`;\ncy.log(id);\ncy.request({\n  method: 'PUT',\n  url: `/usuarios/${id}`,\n  headers: {\n    authorization: token\n  },\n  body: {\n    \"administrador\": \"true\",\n    \"nome\": usuarioNew,\n    \"email\": emailNew + \"@qa.com.br\",\n    \"password\": \"teste\"\n  }\n}).then(response => {\n  expect(response.status).to.be.equal(200), expect(response.body.message).to.equal('Registro alterado com sucesso');\n});",
+              "err": {},
+              "uuid": "b20251b5-cb4b-468a-846e-c923ed1bb065",
+              "parentUUID": "33e40895-b927-4235-b935-be4a3da240fe",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "DELETE - Deve deletar um usuário previamente cadastrado",
+              "fullTitle": "Testes da Funcionalidade Usuários DELETE - Deve deletar um usuário previamente cadastrado",
+              "timedOut": null,
+              "duration": 57,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.log(id); //log do id do usuario criado , depois alterado, e por fim deletado\ncy.request({\n  method: 'DELETE',\n  url: `/usuarios/${id}`,\n  headers: {\n    authorization: token\n  }\n});",
+              "err": {},
+              "uuid": "1956ac74-91ac-4a07-b139-5b752886f7c9",
+              "parentUUID": "33e40895-b927-4235-b935-be4a3da240fe",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "eb06cb22-0554-471e-8e73-e12103d2bf27",
+            "170bce0c-ccdc-4d57-b2d3-ed9fa0785648",
+            "156ab88f-b1f4-4645-a78f-f14562b3dd85",
+            "7603cd13-ac4f-427a-bab4-626d763559ac",
+            "b20251b5-cb4b-468a-846e-c923ed1bb065",
+            "1956ac74-91ac-4a07-b139-5b752886f7c9"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 528,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "mochawesome-report",
+        "overwrite": false,
+        "html": true,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

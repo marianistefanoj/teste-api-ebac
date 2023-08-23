@@ -62,3 +62,55 @@ Cypress.Commands.add('token', (email, senha) => {
             
         })
     })
+
+    //SJM - 22/08/23 - Criando commands para testes da api do exercicio
+    Cypress.Commands.add('validaEndpointAPI', (endpoint, varJoi) => {
+        cy.request('' + endpoint).then(response => {
+            return varJoi.validateAsync(response.body)
+         })
+    })
+
+    Cypress.Commands.add('getEndpoint', (endpoint) => {
+        cy.request({
+            method: 'GET', //metodo html
+            url: '/'+ endpoint, //url base + endpoint
+         })
+    })
+
+    Cypress.Commands.add('cadastraUsuario', (token, nome, email, password, admin) =>{
+        cy.request({
+            method: 'POST',
+            url: '/usuarios',
+            headers: {authorization : token},
+            body : {
+                "nome": nome ,
+                "email": email + "@qa.com.br" ,
+                "password": password,
+                "administrador": admin
+            },
+            failOnStatusCode: false
+         })
+    })
+
+    Cypress.Commands.add('editaUsuarioCadastrado', (token, id, nome, email, password, admin) =>{
+        cy.request({
+            method: 'PUT',
+            url: `/usuarios/${id}`,
+            headers: {authorization : token},
+            body : {
+                "nome": nome ,
+                "email": email + "@qa.com.br" ,
+                "password": password,
+                "administrador": admin
+            },
+            failOnStatusCode: false
+         })
+    })
+
+    Cypress.Commands.add('deletaRegistroEndpoint', (token, endpoint, id) => {
+        cy.request({
+            method: 'DELETE',
+            url: '/' + endpoint + `/${id}`,
+            headers: {authorization : token},
+        })
+    })
